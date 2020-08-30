@@ -9,6 +9,9 @@ import java.util.Scanner;
 public class Task009Impl implements Task009 {
     @Override
     public Collection<String> countWords(File sourceFile) {
+        if (sourceFile == null) {
+            throw new IllegalArgumentException();
+        }
         String text = "";
         try {
             Scanner scanner = new Scanner(sourceFile);

@@ -66,6 +66,10 @@ public class GraphImpl implements Graph {
                 edgeFromIndex = edge;
             }
         }
+        if (edgeFromIndex == null) {
+            throw new IllegalArgumentException();
+        }
+
         return edgeFromIndex;
     }
 

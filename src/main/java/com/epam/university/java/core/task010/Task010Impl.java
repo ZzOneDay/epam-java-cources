@@ -9,6 +9,10 @@ import java.util.Scanner;
 public class Task010Impl implements Task010 {
     @Override
     public Map<String, Integer> countWordNumbers(File source) {
+        if (source == null) {
+            throw new IllegalArgumentException();
+        }
+
         String text = "";
         try {
             Scanner scanner = new Scanner(source);

@@ -3,6 +3,10 @@ package com.epam.university.java.core.task008;
 public class Task008Impl implements Task008 {
     @Override
     public boolean isValid(String sourceString) {
+        if (sourceString == null) {
+            throw new IllegalArgumentException();
+        }
+
         if (sourceString.length() == 0) {
             return true;
         }

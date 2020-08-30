@@ -5,7 +5,11 @@ import java.util.Collection;
 
 public class Task013Impl implements Task013 {
     @Override
-    public Figure invokeActions(Figure figure, Collection<FigureAction> actions) {
+    public Figure invokeActions(Figure figure, Collection<FigureAction> actions)
+    {
+        if (figure == null || actions == null || actions.size() == 0) {
+            throw new IllegalArgumentException();
+        }
         for (FigureAction figureAction : actions) {
             figureAction.run(figure);
         }
@@ -14,6 +18,9 @@ public class Task013Impl implements Task013 {
 
     @Override
     public boolean isConvexPolygon(Figure figure) {
+        if (figure == null) {
+            throw new IllegalArgumentException();
+        }
         ArrayList<Vertex> vertices = (ArrayList<Vertex>) figure.getVertexes();
         ArrayList<Vertex> sortedVertices = getSortedVertexes(vertices);
         Vertex firstVertex = sortedVertices.get(0);

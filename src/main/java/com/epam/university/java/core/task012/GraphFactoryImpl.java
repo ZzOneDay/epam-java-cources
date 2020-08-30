@@ -6,6 +6,10 @@ public class GraphFactoryImpl implements GraphFactory {
 
     @Override
     public Graph newInstance(int vertexesCount) {
+        if (vertexesCount == 0) {
+            throw new IllegalArgumentException();
+        }
+
         vertexesCount = vertexesCount + 1; //index start this 1;
         ArrayList<Edge> edges = new ArrayList<>();
         for (int i = 1; i < vertexesCount; i++) {
