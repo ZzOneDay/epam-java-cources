@@ -23,6 +23,9 @@ public class Task013Impl implements Task013 {
         }
         ArrayList<Vertex> vertices = (ArrayList<Vertex>) figure.getVertexes();
         ArrayList<Vertex> sortedVertices = getSortedVertexes(vertices);
+        if (sortedVertices == null) {
+            return false;
+        }
         Vertex firstVertex = sortedVertices.get(0);
         for (int i = 1; i < sortedVertices.size(); i++) {
             Vertex nextVertex = sortedVertices.get(i);
@@ -74,31 +77,56 @@ public class Task013Impl implements Task013 {
         ArrayList<Vertex> vertexesList = new ArrayList<>();
         Vertex startPosition = new VertexImpl(0, 0);
         Vertex firstVertex = getMoreCloseVertex(startPosition, vertexesOld);
+
         vertexesList.add(firstVertex);
         vertexesOld.remove(firstVertex);
+
+
         while (vertexesOld.size() > 0) {
             Vertex lastVertex = vertexesList.get(vertexesList.size() - 1);
             Vertex closeVertex = getMoreCloseVertex(lastVertex, vertexesOld);
+            if (closeVertex == null) {
+                return null;
+            }
             vertexesList.add(closeVertex);
             vertexesOld.remove(closeVertex);
         }
+
+        vertexesOld.addAll(vertexesList);
         return vertexesList;
     }
 
+
     private Vertex getMoreCloseVertex(Vertex vertex, ArrayList<Vertex> vertexes) {
-        double distance = 1000000000;
-        Vertex closeVertex = null;
+
+        ArrayList<Vertex> closeVertexes = new ArrayList<>();
+
         for (Vertex anyVertex : vertexes) {
             if (vertex.equals(anyVertex)) {
                 continue;
             }
-            double someDistance = getDistance(vertex, anyVertex);
-            if (someDistance < distance) {
-                distance = someDistance;
-                closeVertex = anyVertex;
+            if (checkVertexesOf2Vertex(vertex, anyVertex, vertexes)) {
+                closeVertexes.add(anyVertex);
+            }
+
+            if (closeVertexes.size() > 1) {
+                Vertex someVertex = null;
+                double distance = 100000;
+                for (Vertex vertex1 : vertexes) {
+                    double someDistance = getDistance(vertex, anyVertex);
+                    if (someDistance < distance) {
+                        distance = someDistance;
+                        someVertex = vertex1;
+                    }
+                }
+                return someVertex;
             }
         }
-        return closeVertex;
+        if (closeVertexes.size() == 0) {
+            return null;
+        }
+
+        return closeVertexes.get(0);
     }
 
     private double getDistance(Vertex vertex1, Vertex vertex2) {
