@@ -3,8 +3,16 @@ package com.epam.university.java.core.task014;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * This solution generate vampire numbers.
+ * @author Pavel Novikov
+ */
+
 public class Task014Impl implements Task014 {
-    //Generated Vampire Numbers.
+    /**
+     * Generate all numbers, and return only vampireNumbers.
+     * @return vampireNumbers.
+     */
     public Collection<VampireNumber> getVampireNumbers() {
         ArrayList<VampireNumber> vampireNumbers = new ArrayList<>();
 
@@ -64,6 +72,7 @@ public class Task014Impl implements Task014 {
     }
 
     private int[] getArrayIntegers(String numberString) {
+
         int[] arr = new int[numberString.length()];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = Integer.parseInt(numberString.charAt(i) + "");

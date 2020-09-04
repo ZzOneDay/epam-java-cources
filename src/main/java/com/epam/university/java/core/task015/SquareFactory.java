@@ -1,5 +1,6 @@
 package com.epam.university.java.core.task015;
 
+
 /**
  * Square factory.
  */

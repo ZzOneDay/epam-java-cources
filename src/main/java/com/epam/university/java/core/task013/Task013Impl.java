@@ -5,8 +5,7 @@ import java.util.Collection;
 
 public class Task013Impl implements Task013 {
     @Override
-    public Figure invokeActions(Figure figure, Collection<FigureAction> actions)
-    {
+    public Figure invokeActions(Figure figure, Collection<FigureAction> actions) {
         if (figure == null || actions == null || actions.size() == 0) {
             throw new IllegalArgumentException();
         }
