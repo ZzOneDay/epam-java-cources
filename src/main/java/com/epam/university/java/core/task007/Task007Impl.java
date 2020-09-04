@@ -15,6 +15,10 @@ public class Task007Impl implements Task007 {
             }
         }
 
+        if (n1 == null || n2 == null) {
+            throw new IllegalArgumentException();
+        }
+
         ArrayList<ValueX> firstList = new ArrayList<>();
         int maxRankFirst = n1.size() - 1;
         for (Integer integer : n1) {

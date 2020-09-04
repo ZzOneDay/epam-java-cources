@@ -17,7 +17,7 @@ public class Rhombus extends Figure {
         this.point1 = point1;
         this.point2 = point2;
         this.lineFunction = lineFunction;
-        Point[] points = getFoundedPointByLineFunction(point1, point2, lineFunction);
+        Point[] points = getFoundedPointByFunction(point1, point2, lineFunction);
         this.foundedPoint = points[0];
         this.oppositeFoundedPoint = points[1];
     }
@@ -30,28 +30,28 @@ public class Rhombus extends Figure {
         return oppositeFoundedPoint;
     }
 
-    private Point[] getFoundedPointByLineFunction(Point point1, Point point2, Function lineFunction) {
-        double valueHypotenuse = getValueHypotenuseIsoscelesTriangle(point1, point2);
+    private Point[] getFoundedPointByFunction(Point point1, Point point2, Function lineFunction) {
+        double valueHypotenuse = getValueHypotenuseIsosceles(point1, point2);
 
         if (lineFunction instanceof VerticalLineFunction) {
-            return getFoundPointsOfVerticalLineFunction(point1, point2);
+            return getFoundPointsOfVertical(point1, point2);
         }
 
         if (lineFunction instanceof HorizontalLineFunction) {
-            return getFoundPointsOfHorizontalLineFunction(point1, point2);
+            return getFoundPointsOfHorizontal(point1, point2);
         }
 
-        return getFoundedPointsOfOtherFunction(point1, point2, valueHypotenuse, 15);
+        return getFoundedPointsOfOther(point1, point2, valueHypotenuse, 15);
     }
 
 
-    private double getValueHypotenuseIsoscelesTriangle(Point point1, Point point2) {
+    private double getValueHypotenuseIsosceles(Point point1, Point point2) {
         double distance = getBetweenDistance(point1, point2);
         return Math.sqrt((distance * distance) / 2);
     }
 
 
-    private Point[] getFoundedPointsOfOtherFunction(Point point1, Point point2, double valueHypotenuse, int radius) {
+    private Point[] getFoundedPointsOfOther(Point point1, Point point2, double hypotenuse, int radius) {
         //Carefully. Rounding the found points
         double centralPointX = ((point1.getX() + point2.getX()) / 2);
         Point foundPoint1 = null;
@@ -61,7 +61,7 @@ public class Rhombus extends Figure {
             foundPoint1 = new PointImpl(x, lineFunction.getValueY(x));
             double value1 = getBetweenDistance(point1, foundPoint1);
             double value2 = getBetweenDistance(point2, foundPoint1);
-            if (Math.abs(value1 - valueHypotenuse) < 0.0001 && Math.abs(value2 - valueHypotenuse) < 0.001) {
+            if (Math.abs(value1 - hypotenuse) < 0.0001 && Math.abs(value2 - hypotenuse) < 0.001) {
                 foundPoint1 = new PointImpl(Math.round(x), Math.round(lineFunction.getValueY(x)));
                 break;
             }
@@ -71,7 +71,7 @@ public class Rhombus extends Figure {
             foundPoint2 = new PointImpl(x, lineFunction.getValueY(x));
             double value1 = getBetweenDistance(point1, foundPoint2);
             double value2 = getBetweenDistance(point2, foundPoint2);
-            if (Math.abs(value1 - valueHypotenuse) < 0.0001 && Math.abs(value2 - valueHypotenuse) < 0.001) {
+            if (Math.abs(value1 - hypotenuse) < 0.0001 && Math.abs(value2 - hypotenuse) < 0.001) {
                 foundPoint2 = new PointImpl(Math.round(x), Math.round(lineFunction.getValueY(x)));
                 break;
             }
@@ -84,7 +84,7 @@ public class Rhombus extends Figure {
         return new Point[]{foundPoint1, foundPoint2};
     }
 
-    private Point[] getFoundPointsOfVerticalLineFunction(Point point1, Point point2) {
+    private Point[] getFoundPointsOfVertical(Point point1, Point point2) {
         Point foundPoint1;
         Point foundPoint2;
         double centralPointX = ((point1.getX() + point2.getX()) / 2);
@@ -96,7 +96,7 @@ public class Rhombus extends Figure {
         return new Point[]{foundPoint1, foundPoint2};
     }
 
-    private Point[] getFoundPointsOfHorizontalLineFunction(Point point1, Point point2) {
+    private Point[] getFoundPointsOfHorizontal(Point point1, Point point2) {
         Point foundPoint1;
         Point foundPoint2;
         double centralPointX = ((point1.getX() + point2.getX()) / 2);
@@ -116,16 +116,5 @@ public class Rhombus extends Figure {
         double y2 = point2.getY();
 
         return Math.sqrt(Math.abs(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))));
-    }
-
-
-    @Override
-    public String toString() {
-        return "Triangle{" +
-                "point1=" + point1 +
-                ", point2=" + point2 +
-                ", foundedPoint=" + foundedPoint +
-                ", oppositeFoundedPoint=" + oppositeFoundedPoint +
-                '}';
     }
 }

@@ -46,7 +46,7 @@ public class Figure {
         Rhombus rhombus = new Rhombus(point1, point2, perpendicularFunction);
         Point point3 = rhombus.getFoundedPoint();
         Point point4 = rhombus.getOppositeFoundedPoint();
-        Point orderPoints[] = getPointInOrder(point1, point2, point3, point4);
+        Point []orderPoints = getPointInOrder(point1, point2, point3, point4);
 
         return new SquareImpl(orderPoints);
     }

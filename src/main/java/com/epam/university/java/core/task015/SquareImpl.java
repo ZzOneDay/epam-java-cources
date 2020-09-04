@@ -70,14 +70,4 @@ public class SquareImpl extends Figure implements Square {
 
     public void setSecond(Point second) {
     }
-
-    @Override
-    public String toString() {
-        return "SquareImpl{" +
-                "pointA=" + pointA +
-                ", pointB=" + pointB +
-                ", pointC=" + pointC +
-                ", pointD=" + pointD +
-                '}';
-    }
 }
