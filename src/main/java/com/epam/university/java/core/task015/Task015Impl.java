@@ -6,14 +6,14 @@ public class Task015Impl implements Task015 {
         SquareImpl square1 = (SquareImpl) first;
         SquareImpl square2 = (SquareImpl) second;
 
-        VectorSquare vectorSquare1 = square1.getVectorSquare();
-        VectorSquare vectorSquare2 = square2.getVectorSquare();
+        VectorSquare vSquare1 = square1.getVectorSquare();
+        VectorSquare vSquare2 = square2.getVectorSquare();
 
         VectorCalculator vectorCalculator = new VectorCalculator();
         double square = 0;
         double step = 0.01;
         for (double x = 0.0; x < 10; x = x + step) {
-            Double[] values = vectorCalculator.getValueOfIntersection(vectorSquare1, vectorSquare2, x);
+            Double[] values = vectorCalculator.getValueOfIntersection(vSquare1, vSquare2, x);
             if (values != null) {
                 double miniSquare = (Math.abs(values[0] - values[1])) * step;
                 square += miniSquare;

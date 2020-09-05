@@ -5,7 +5,7 @@ public class PointImpl implements Point {
     private double x;
     private double y;
 
-    public PointImpl(double x, double y) {
+    PointImpl(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -24,13 +24,5 @@ public class PointImpl implements Point {
 
     public void setY(double y) {
         this.y = y;
-    }
-
-    @Override
-    public String toString() {
-        return "PointImpl{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
     }
 }

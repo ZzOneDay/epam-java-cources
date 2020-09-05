@@ -1,21 +1,11 @@
 package com.epam.university.java.core.task015;
 
-public class Rhombus extends Figure {
-    private Point point1;
-    private Point point2;
+class Rhombus extends Figure {
     private Point foundedPoint;
     private Point oppositeFoundedPoint;
     private Function lineFunction;
 
-    Rhombus(Point point1, Point point2, Point foundedPoint, Point oppositeFoundedPoint) {
-        super(point1, point2);
-        this.foundedPoint = foundedPoint;
-        this.oppositeFoundedPoint = oppositeFoundedPoint;
-    }
-
     Rhombus(Point point1, Point point2, Function lineFunction) {
-        this.point1 = point1;
-        this.point2 = point2;
         this.lineFunction = lineFunction;
         Point[] points = getFoundedPointByFunction(point1, point2, lineFunction);
         this.foundedPoint = points[0];
@@ -41,7 +31,7 @@ public class Rhombus extends Figure {
             return getFoundPointsOfHorizontal(point1, point2);
         }
 
-        return getFoundedPointsOfOther(point1, point2, valueHypotenuse, 15);
+        return getFoundedPointsOfOther(point1, point2, valueHypotenuse);
     }
 
 
@@ -51,8 +41,9 @@ public class Rhombus extends Figure {
     }
 
 
-    private Point[] getFoundedPointsOfOther(Point point1, Point point2, double hypotenuse, int radius) {
+    private Point[] getFoundedPointsOfOther(Point point1, Point point2, double hypotenuse) {
         //Carefully. Rounding the found points
+        int radius = 15;
         double centralPointX = ((point1.getX() + point2.getX()) / 2);
         Point foundPoint1 = null;
         Point foundPoint2 = null;

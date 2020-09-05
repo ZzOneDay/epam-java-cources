@@ -2,26 +2,37 @@ package com.epam.university.java.core.task015;
 
 import java.util.ArrayList;
 
-//
-//    A-----------B
-//    |           |
-//    |           |
-//    D-----------C
-//
+/**
+ * Correct square, which has order in points.
+ * <p>
+ * If you know, where points of square, you can get correct {@link VectorSquare},
+ * this class is used for find valueY of indexX.
+ * If you don't have correct position of square,
+ * you will have not correct vectorSquare and correct result valueY.
+ * Order of points are A-B-C-D. Not necessary know where point of system coordinate,
+ * main this is correct order.
+ * </p>
+ *
+ * @author Pavel_Novikov
+ * @since 1.0
+ */
 public class SquareImpl extends Figure implements Square {
     private final Point pointA;
     private final Point pointB;
     private final Point pointC;
     private final Point pointD;
 
-    public SquareImpl(Point pointA, Point pointB, Point pointC, Point pointD) {
-        this.pointA = pointA;
-        this.pointB = pointB;
-        this.pointC = pointC;
-        this.pointD = pointD;
-    }
 
-    public SquareImpl(Point[] orderPoints) {
+    /**
+     * Constructor correct square.
+     * <p>
+     * Check result and set points used order arrays of points.
+     * This array was created in {@link Figure}.
+     * </p>
+     *
+     * @param orderPoints arrays this point in order
+     */
+    SquareImpl(Point[] orderPoints) {
         if (orderPoints.length != 4) {
             throw new IllegalArgumentException();
         }
@@ -31,8 +42,20 @@ public class SquareImpl extends Figure implements Square {
         this.pointD = orderPoints[3];
     }
 
-    public VectorSquare getVectorSquare() {
-        ArrayList<Function> functions = new ArrayList<Function>();
+    /**
+     * Create VectorSquare of correct square.
+     *
+     * <p>
+     * This is the main idea of this solution.
+     * When you have simple square,
+     * you can create system of functions that have limits.
+     * and get result valueY of indexX.
+     * </p>
+     *
+     * @return new {@link VectorSquare} that has system functions.
+     */
+    VectorSquare getVectorSquare() {
+        ArrayList<Function> functions = new ArrayList<>();
         functions.add(new Function().getLineFunction(pointA, pointB));
         functions.add(new Function().getLineFunction(pointB, pointC));
         functions.add(new Function().getLineFunction(pointC, pointD));
@@ -40,23 +63,7 @@ public class SquareImpl extends Figure implements Square {
         return new VectorSquare(functions);
     }
 
-    public Point getPointA() {
-        return pointA;
-    }
 
-    public Point getPointB() {
-        return pointB;
-    }
-
-    public Point getPointC() {
-        return pointC;
-    }
-
-    public Point getPointD() {
-        return pointD;
-    }
-
-    //Не нужные методы
     public Point getFirst() {
         return super.getPoint1();
     }

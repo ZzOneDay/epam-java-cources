@@ -3,17 +3,17 @@ package com.epam.university.java.core.task015;
 import java.util.ArrayList;
 
 /**
- * Class parents for Square.
- * This program have ability for other Figures.
- * If you want create other figure you can add new methods.
+ * Class constructor other figure.
+ * <p>
+ * You can create a lot of figure, used 2 point.
+ * Main idea of this class this created new Figure, and get square of 2 points.
+ * </p>
+ *
+ * @author Pavel_Novikov
+ * @since 1.0
  */
 
 public class Figure {
-    /**
-     * Method getSquare found new Point for build figure.
-     * Found new point this opposite line, and Rhombus.
-     */
-
     private Point point1;
     private Point point2;
 
@@ -25,14 +25,26 @@ public class Figure {
         this.point2 = point2;
     }
 
-    public Point getPoint1() {
+    Point getPoint1() {
         return point1;
     }
 
-    public Point getPoint2() {
+    Point getPoint2() {
         return point2;
     }
 
+
+    /**
+     * This method create new Square, used only 2 point.
+     * <p>
+     * Use 2 point, we'll create {@link Rhombus}.
+     * This object will found 2 missing point for our square.
+     * Use these points for create new Square.
+     * And we create new Square used 4 point, because square has 4 point.
+     * </p>
+     *
+     * @return return correct Square
+     */
     public Square getSquare() {
         Point point1 = this.point1;
         Point point2 = this.point2;
@@ -41,33 +53,57 @@ public class Figure {
         Point centralPoint = new PointImpl(centralPointX, centralPointY);
 
         Function lineFunction = new Function().getLineFunction(point1, point2);
-        Function perpendicularFunction = new Function().getOppositeLineFunction(lineFunction, centralPoint);
+        Function perpendicular = new Function().getOppositeLineFunction(lineFunction, centralPoint);
 
-        Rhombus rhombus = new Rhombus(point1, point2, perpendicularFunction);
+        Rhombus rhombus = new Rhombus(point1, point2, perpendicular);
         Point point3 = rhombus.getFoundedPoint();
         Point point4 = rhombus.getOppositeFoundedPoint();
-        Point []orderPoints = getPointInOrder(point1, point2, point3, point4);
+        Point[] orderPoints = getPointInOrder(point1, point2, point3, point4);
 
         return new SquareImpl(orderPoints);
     }
 
+
+    /**
+     * Points will order.
+     * <p>
+     * Method will order our point in order, for create correct square.
+     * Correct order is A,B,C,D. See what point and where square has in {@link SquareImpl}.
+     * you can put your points in method in random order. Don't caring.
+     * </p>
+     * <p>
+     * Method found 1st point of 0.0 that has more close distance, and Start.
+     * Next point add in new List, and remove of old list.
+     * Find new point is method that find more close point.
+     * Throw exception when any point is null
+     * or when method try to find more close point is broken
+     * </p>
+     *
+     * @param point1 - point of Constructor.
+     * @param point2 - other point of Constructor.
+     * @param point3 - founded point of Rhombus.
+     * @param point4 - other founded point of Rhombus.
+     * @return arrays of Point, and these points have order.
+     * @throws IllegalArgumentException {@link IllegalArgumentException}
+     *                                  Throw exception when any point is null
+     *                                  or when method try to find more close point is broken
+     */
     private Point[] getPointInOrder(Point point1, Point point2, Point point3, Point point4) {
         if (point1 == null || point2 == null || point3 == null || point4 == null) {
             //this is not Square
             throw new IllegalArgumentException();
         }
 
-        ArrayList<Point> pointsOld = new ArrayList<Point>();
+        ArrayList<Point> pointsOld = new ArrayList<>();
         pointsOld.add(point1);
         pointsOld.add(point2);
         pointsOld.add(point3);
         pointsOld.add(point4);
 
-        ArrayList<Point> pointsNew = new ArrayList<Point>();
-        Point pointStart = new PointImpl(0, 0);
+        ArrayList<Point> pointsNew = new ArrayList<>();
 
-        Point moreClose = pointStart;
-        double distance = 10000000;
+        Point moreClose = new PointImpl(0, 0);
+        double distance;
 
         while (pointsOld.size() > 0) {
             distance = 10000000;
@@ -85,39 +121,6 @@ public class Figure {
             pointsOld.remove(moreClose);
         }
 
-
-//        if (point1.getY() >= point2.getY() && point1.getX() <= point2.getX()) {
-//            System.out.println("test1");
-//            pointA = point1;
-//            pointB = point2;
-//            pointC = point3;
-//            pointD = point4;
-//            return new Point[]{pointA,pointB,pointC,pointD};
-//        }
-//
-//        if (point1.getY() >= point2.getY() && point1.getX() >= point2.getX()) {
-//            System.out.println("test2");
-//            pointA = point4;
-//            pointB = point1;
-//            pointC = point2;
-//            pointD = point3;
-//        }
-//
-//        if (point1.getY() <= point2.getY() && point1.getX() <= point2.getX()) {
-//            System.out.println("test3");
-//            pointA = point3;
-//            pointB = point2;
-//            pointC = point1;
-//            pointD = point4;
-//        }
-//
-//        if (point1.getY() <= point2.getY() && point1.getX() >= point2.getX()) {
-//            System.out.println("test4");
-//            pointA = point2;
-//            pointB = point3;
-//            pointC = point4;
-//            pointD = point1;
-//        }
         if (pointsNew.size() != 4) {
             throw new IllegalArgumentException();
         }
