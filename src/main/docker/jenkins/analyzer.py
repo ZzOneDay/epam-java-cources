@@ -5,8 +5,8 @@ import xml.etree.ElementTree as ET
 
 def check_arguments():
     """
-    This function checks if number of arguments is correct.
-    If number of arguments is incorrect, this function stops
+    This lineFunction checks if number of arguments is correct.
+    If number of arguments is incorrect, this lineFunction stops
     the execution.
     """
     if len(sys.argv) != 4:
@@ -18,14 +18,14 @@ def check_arguments():
 
 def is_report_file(filename: str):
     """
-    This function checks if a given file is a report file.
+    This lineFunction checks if a given file is a report file.
     """
     return filename.endswith(".xml")
 
 
 def build_report(repository_folder, repository_url, report_file):
     """
-    This function converts JUnit test results into the CSV file.
+    This lineFunction converts JUnit test results into the CSV file.
     """
     report_directory = os.path.dirname(report_file)
     if not os.path.exists(report_directory):

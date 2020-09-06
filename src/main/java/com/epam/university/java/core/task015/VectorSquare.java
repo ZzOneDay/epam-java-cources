@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VectorSquare {
-    ArrayList<Function> functions;
+class VectorSquare {
+    private ArrayList<Function> lineFunctions;
 
-    public VectorSquare(ArrayList<Function> functions) {
-        this.functions = functions;
+    VectorSquare(ArrayList<Function> lineFunctions) {
+        this.lineFunctions = lineFunctions;
     }
 
     ArrayList<Double> getValueYofX(double indexX) {
         ArrayList<Double> values = new ArrayList<>();
-        for (Function function : functions) {
-            Double value = function.getValueY(indexX);
+        for (Function lineFunction : lineFunctions) {
+            Double value = lineFunction.getValueY(indexX);
             if (value != null) {
                 values.add(value);
             }

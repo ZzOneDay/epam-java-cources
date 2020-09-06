@@ -16,7 +16,7 @@ package com.epam.university.java.core.task015;
  * @author Pavel_Novikov
  * @since 1.0
  */
-public class OtherLineFunction extends Function {
+public class OtherLineLineFunction implements Function {
     // Ay + Bx + C = 0;
     private double indexA;
     private double indexB;
@@ -27,14 +27,14 @@ public class OtherLineFunction extends Function {
      * Create new Function used 2 points.
      * <p>
      * when we are creating new Function,
-     * constructor uses {@link OtherLineFunction#getIndexes(Point, Point)}
+     * constructor uses {@link OtherLineLineFunction#getIndexes(Point, Point)}
      * and setValueLimit for this function by Points.
      * </p>
      *
      * @param point1 point of square for find function
      * @param point2 other point of square for find function
      */
-    OtherLineFunction(Point point1, Point point2) {
+    OtherLineLineFunction(Point point1, Point point2) {
         double[] indexesFunctions = getIndexes(point1, point2);
         indexA = indexesFunctions[0];
         indexB = indexesFunctions[1];
@@ -51,12 +51,13 @@ public class OtherLineFunction extends Function {
      * </p>
      *
      * @param indexesFunctions  arrays index,
-     *                          that was created {@link OtherLineFunction#getIndexes(Point, Point)}
+     *                          that was created
+     *                          {@link OtherLineLineFunction#getIndexes(Point, Point)}
      * @param maxAndMinValueOfX this is local values, very bit limits for this task,
      *                          but you can change this for double distance
      *                          between point1 and Central point.
      */
-    private OtherLineFunction(double[] indexesFunctions, double[] maxAndMinValueOfX) {
+    private OtherLineLineFunction(double[] indexesFunctions, double[] maxAndMinValueOfX) {
         indexA = indexesFunctions[0];
         indexB = indexesFunctions[1];
         indexC = indexesFunctions[2];
@@ -64,7 +65,7 @@ public class OtherLineFunction extends Function {
     }
 
     @Override
-    Double getValueY(double indexX) {
+    public Double getValueY(double indexX) {
         // Ay = -Bx - C;
         // y  = (-Bx - C)/A
         if (!isCorrectValueX(indexX)) {
@@ -98,7 +99,7 @@ public class OtherLineFunction extends Function {
      *                    this is centralPoint and for perpendicular.
      * @return new Function that is perpendicular of old function.
      */
-    OtherLineFunction getPerpendicularFunction(Point centerPoint) {
+    OtherLineLineFunction getPerpendicularFunction(Point centerPoint) {
         double centerPointX = centerPoint.getX();
         double centerPointY = centerPoint.getY();
 
@@ -108,7 +109,7 @@ public class OtherLineFunction extends Function {
         double[] valueFunction = new double[]{indexA, newIndexB, newIndexC};
         double[] valuesOfLimit = new double[]{-100, 100};
 
-        return new OtherLineFunction(valueFunction, valuesOfLimit);
+        return new OtherLineLineFunction(valueFunction, valuesOfLimit);
     }
 
     /**

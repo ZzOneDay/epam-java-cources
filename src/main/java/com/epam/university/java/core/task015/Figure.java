@@ -52,8 +52,8 @@ public class Figure {
         double centralPointY = ((point1.getY() + point2.getY()) / 2);
         Point centralPoint = new PointImpl(centralPointX, centralPointY);
 
-        Function lineFunction = new Function().getLineFunction(point1, point2);
-        Function perpendicular = new Function().getOppositeLineFunction(lineFunction, centralPoint);
+        Function lineFunction = LineFunction.getLineFunction(point1, point2);
+        Function perpendicular = LineFunction.getOppositeLineFunction(lineFunction, centralPoint);
 
         Rhombus rhombus = new Rhombus(point1, point2, perpendicular);
         Point point3 = rhombus.getFoundedPoint();

@@ -55,12 +55,12 @@ public class SquareImpl extends Figure implements Square {
      * @return new {@link VectorSquare} that has system functions.
      */
     VectorSquare getVectorSquare() {
-        ArrayList<Function> functions = new ArrayList<>();
-        functions.add(new Function().getLineFunction(pointA, pointB));
-        functions.add(new Function().getLineFunction(pointB, pointC));
-        functions.add(new Function().getLineFunction(pointC, pointD));
-        functions.add(new Function().getLineFunction(pointD, pointA));
-        return new VectorSquare(functions);
+        ArrayList<Function> lineFunctions = new ArrayList<>();
+        lineFunctions.add(LineFunction.getLineFunction(pointA, pointB));
+        lineFunctions.add(LineFunction.getLineFunction(pointB, pointC));
+        lineFunctions.add(LineFunction.getLineFunction(pointC, pointD));
+        lineFunctions.add(LineFunction.getLineFunction(pointD, pointA));
+        return new VectorSquare(lineFunctions);
     }
 
 
