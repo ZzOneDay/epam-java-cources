@@ -17,7 +17,6 @@ public class Task011Impl implements Task011 {
                 return people.get(0);
             }
             index++;
-            System.out.println(people.toString() + index);
             if (index > people.size() - 1) {
                 index = Math.abs(people.size() - index);
             }
@@ -36,7 +35,6 @@ public class Task011Impl implements Task011 {
                 return collection.get(0);
             }
             index++;
-            System.out.println(collection.toString() + index);
             if (index > collection.size() - 1) {
                 index = Math.abs(collection.size() - index);
             }
@@ -55,7 +53,6 @@ public class Task011Impl implements Task011 {
                 return collection.get(0);
             }
             index++;
-            System.out.println(collection.toString() + index);
             if (index > collection.size() - 1) {
                 index = Math.abs(collection.size() - index);
             }
