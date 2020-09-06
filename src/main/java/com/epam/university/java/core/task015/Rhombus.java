@@ -23,11 +23,11 @@ class Rhombus extends Figure {
     private Point[] getFoundedPointByFunction(Point point1, Point point2, Function lineFunction) {
         double valueHypotenuse = getValueHypotenuseIsosceles(point1, point2);
 
-        if (lineFunction instanceof VerticalLineFunction) {
+        if (lineFunction instanceof VerticalLineLineFunction) {
             return getFoundPointsOfVertical(point1, point2);
         }
 
-        if (lineFunction instanceof HorizontalLineFunction) {
+        if (lineFunction instanceof HorizontalLineLineFunction) {
             return getFoundPointsOfHorizontal(point1, point2);
         }
 

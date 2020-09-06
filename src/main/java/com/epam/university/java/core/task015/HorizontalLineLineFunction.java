@@ -1,11 +1,11 @@
 package com.epam.university.java.core.task015;
 
-public class HorizontalLineFunction extends Function {
+public class HorizontalLineLineFunction implements Function {
     private double valueY;
     private double[] maxAndMinValueOfX;
 
 
-    HorizontalLineFunction(Point point1, Point point2) {
+    HorizontalLineLineFunction(Point point1, Point point2) {
         valueY = point1.getY();
         maxAndMinValueOfX = new double[]{point1.getX(), point2.getX()};
         if (point1.equals(point2)) {
@@ -14,16 +14,7 @@ public class HorizontalLineFunction extends Function {
     }
 
     @Override
-    public double[] getMaxAndMinValueOfX() {
-        return maxAndMinValueOfX;
-    }
-
-    public void setMaxAndMinValueOfX(double[] maxAndMinValueOfX) {
-        this.maxAndMinValueOfX = maxAndMinValueOfX;
-    }
-
-    @Override
-    Double getValueY(double indexX) {
+    public Double getValueY(double indexX) {
         if (!isCorrectValueX(indexX)) {
             return null;
         }
