@@ -10,6 +10,10 @@ import java.lang.reflect.Parameter;
 public class Task018Impl implements Task018 {
     @Override
     public boolean isAnnotationPresent(Object toCheck, Class<?> annotationToFind) {
+        if (toCheck == null || annotationToFind == null) {
+            throw new IllegalArgumentException();
+        }
+
         //TODO Когда-нибудь, нужно будет переписать авбсолюно весь код из-за одной недоработки.
         Class<? extends Annotation> annotations = (Class<? extends Annotation>) annotationToFind;
 
