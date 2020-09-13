@@ -52,6 +52,9 @@ public class Task027Impl implements Task027 {
         int number = Integer.parseInt(numberString);
         int newNumber = number + 1;
         int countCharacters = String.valueOf(newNumber).length();
+        if ((countCharacters + countNumbers) > numbers.length()) {
+            return " ERROR";
+        }
         String newNumberString = numbers.substring(countNumbers, countNumbers + countCharacters);
         int newNumberOfNewString = Integer.parseInt(newNumberString);
         if ((newNumberOfNewString - number) == 1) {
