@@ -14,7 +14,7 @@ public class Task018Impl implements Task018 {
             throw new IllegalArgumentException();
         }
 
-        //TODO Когда-нибудь, нужно будет переписать авбсолюно весь код из-за одной недоработки.
+        @SuppressWarnings("unchecked")
         Class<? extends Annotation> annotations = (Class<? extends Annotation>) annotationToFind;
 
         Constructor[] constructors = toCheck.getClass().getConstructors();
