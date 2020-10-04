@@ -12,7 +12,19 @@ public class PersonImpl implements Person {
 
     }
 
-    PersonImpl(int id, String firstName, String lastName, Collection<PhoneNumber> phoneNumbers) {
+    /**
+     * Object class Person.
+     * <p>
+     * Implemented interface Person.
+     * </p>
+     *
+     * @param id           generated from Json file.
+     * @param firstName    generated from Json file.
+     * @param lastName     generated from Json file.
+     * @param phoneNumbers generated from Json file.
+     */
+    public PersonImpl(int id, String firstName,
+                      String lastName, Collection<PhoneNumber> phoneNumbers) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
