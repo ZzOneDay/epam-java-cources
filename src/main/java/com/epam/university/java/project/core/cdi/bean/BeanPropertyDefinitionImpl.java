@@ -20,7 +20,6 @@ public class BeanPropertyDefinitionImpl implements BeanPropertyDefinition {
     private String name;
     @XmlAttribute
     private String value;
-
     @XmlAttribute
     private String ref;
 
