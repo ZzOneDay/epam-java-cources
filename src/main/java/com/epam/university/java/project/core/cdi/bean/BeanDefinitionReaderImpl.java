@@ -20,13 +20,15 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
             JAXBContext context1 = JAXBContext.newInstance(BeansAdapter.class);
             Unmarshaller unmarshaller = context1.createUnmarshaller();
             BeansAdapter beansAdapter = (BeansAdapter) unmarshaller.unmarshal(resource.getFile());
+            if (!isCorrectBeansAdapter(beansAdapter)) {
+                throw new RuntimeException("BeansAdapter is unCorrect, XML is Correct?");
+            }
             beanDefinitions = beansAdapter.getList();
         } catch (Exception e) {
             System.out.println("JAXB can't read file : " + resource.getFile().getName());
         }
         if (beanDefinitions == null || beanDefinitions.isEmpty()) {
-            throw new NullPointerException("Collection this BeanDefinition is " +
-                    "null or empty, JAXB didn't create correct list");
+            throw new NullPointerException("JAXB didn't create correct list");
         }
 
         int amountLoadedBeans = 0;
@@ -35,12 +37,7 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
             registry.addBeanDefinition(beanDefinition);
         }
 
-        if (amountLoadedBeans != beanDefinitions.size()) {
-            throw new IllegalArgumentException("Count loaded beans != size " +
-                    "list of beans of resource");
-        }
-
-        return beanDefinitions.size();
+        return amountLoadedBeans;
     }
 
     @Override
@@ -50,5 +47,27 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
             countLoaded += loadBeanDefinitions((Resource) resource.getFile());
         }
         return countLoaded;
+    }
+
+
+    private boolean isCorrectBeansAdapter(BeansAdapter adapter) {
+        Collection<BeanDefinition> beanDefinitions = adapter.getList();
+        for (BeanDefinition beanDefinition : beanDefinitions) {
+            Collection<BeanPropertyDefinition> properties = beanDefinition.getProperties();
+            if (properties == null) {
+                continue;
+            }
+            for (BeanPropertyDefinition propertyDefinition : properties) {
+                if (propertyDefinition.getName() == null) {
+                    return false;
+                }
+                if (propertyDefinition.getRef() == null
+                        && propertyDefinition.getData() == null
+                        && propertyDefinition.getValue() == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

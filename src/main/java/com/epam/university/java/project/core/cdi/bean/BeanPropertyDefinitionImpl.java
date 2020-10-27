@@ -27,7 +27,7 @@ public class BeanPropertyDefinitionImpl implements BeanPropertyDefinition {
             @XmlElement(name = "list", type = ListDefinitionImpl.class),
             @XmlElement(name = "map", type = MapDefinitionImpl.class)
     })
-    private StructureDefinition Data;
+    private StructureDefinition data;
 
     @Override
     public String getName() {
@@ -62,11 +62,11 @@ public class BeanPropertyDefinitionImpl implements BeanPropertyDefinition {
 
     @Override
     public StructureDefinition getData() {
-        return Data;
+        return data;
     }
 
     @Override
     public void setData(StructureDefinition data) {
-        Data = data;
+        this.data = data;
     }
 }
