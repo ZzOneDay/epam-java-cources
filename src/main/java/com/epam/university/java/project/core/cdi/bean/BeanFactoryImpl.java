@@ -1,8 +1,14 @@
 package com.epam.university.java.project.core.cdi.bean;
 
+import com.epam.university.java.project.core.cdi.structure.ListDefinition;
+import com.epam.university.java.project.core.cdi.structure.MapDefinition;
+import com.epam.university.java.project.core.cdi.structure.StructureDefinition;
+
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class BeanFactoryImpl implements BeanFactory {
@@ -38,7 +44,7 @@ public class BeanFactoryImpl implements BeanFactory {
         try {
             object = getBean(beanDefinitionRegistry.getBeanDefinition(id));
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error in getBeanByName");
+            throw new RuntimeException("Error in getBeanByName");
         }
         return object;
     }
@@ -59,8 +65,9 @@ public class BeanFactoryImpl implements BeanFactory {
      * and match object params this beanDefinition params,
      * in finally we have object create by beanDefinition information.
      * </p>
+     *
      * @param beanDefinition information about bean from XML file.
-     * @param <T> Generic because we can return any class object.
+     * @param <T>            Generic because we can return any class object.
      * @return new Object necessary class from beanDefinition.
      * @throws Exception about Read beanDefinition or work with singleton bean.
      */
@@ -109,8 +116,21 @@ public class BeanFactoryImpl implements BeanFactory {
                     continue;
                 }
 
-                //TODO Обработка list and Map.
+                if (property.getData() != null) {
+                    if (property.getData() instanceof ListDefinition) {
+                        Collection<String> collection = getCollectionOfData(property.getData());
+                        field.set(bean, collection);
+                    }
+                    if (property.getData() instanceof MapDefinition) {
+                        StructureDefinition data = property.getData();
+                        if (isMapOfStrings(data)) {
+                            field.set(bean, getMapOfStringsData(data));
+                        } else {
+                            field.set(bean, getMapOfObjectsData(data));
+                        }
+                    }
 
+                }
             }
         }
 
@@ -145,8 +165,64 @@ public class BeanFactoryImpl implements BeanFactory {
     }
 
     private Object getBeanByInterface(Class interfaceClass) {
-        //It's very bad idea, but it works)
+        //TODO Scanner package and forEach all class and find this that implements interface
         String name = interfaceClass.getSimpleName().replaceAll("Interface", "");
         return getBean(getIdOfNameClass(name));
+    }
+
+
+    private Collection<String> getCollectionOfData(StructureDefinition data) {
+        Collection<String> collection = new ArrayList<>();
+        ListDefinition listDefinition = (ListDefinition) data;
+        Collection<ListDefinition.ListItemDefinition> list = listDefinition.getItems();
+        for (ListDefinition.ListItemDefinition item : list) {
+            collection.add(item.getValue());
+        }
+        return collection;
+    }
+
+
+    private boolean isMapOfStrings(StructureDefinition data) {
+        MapDefinition mapDefinition = (MapDefinition) data;
+        Collection<MapDefinition.MapEntryDefinition> values = mapDefinition.getValues();
+        for (MapDefinition.MapEntryDefinition pair : values) {
+            String ref = pair.getRef();
+            if (ref != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Map<String, String> getMapOfStringsData(StructureDefinition data) {
+        Map<String, String> map = new HashMap<>();
+        MapDefinition mapDefinition = (MapDefinition) data;
+        Collection<MapDefinition.MapEntryDefinition> values = mapDefinition.getValues();
+        for (MapDefinition.MapEntryDefinition pair : values) {
+            String key = pair.getKey();
+            String value = pair.getValue();
+            if (value != null) {
+                map.put(key, value);
+            } else {
+                throw new NullPointerException("getMapOfData, didn't find value of Key");
+            }
+        }
+        return map;
+    }
+
+    private Map<String, Object> getMapOfObjectsData(StructureDefinition data) {
+        Map<String, Object> map = new HashMap<>();
+        MapDefinition mapDefinition = (MapDefinition) data;
+        Collection<MapDefinition.MapEntryDefinition> values = mapDefinition.getValues();
+        for (MapDefinition.MapEntryDefinition pair : values) {
+            String key = pair.getKey();
+            String ref = pair.getRef();
+            if (ref != null) {
+                map.put(key, getBean(ref));
+            } else {
+                throw new NullPointerException("getMapOfData, didn't find value of Key");
+            }
+        }
+        return map;
     }
 }
