@@ -3,12 +3,23 @@ package com.epam.university.java.project.core.cdi.bean;
 import com.epam.university.java.project.core.cdi.structure.ListDefinition;
 import com.epam.university.java.project.core.cdi.structure.MapDefinition;
 import com.epam.university.java.project.core.cdi.structure.StructureDefinition;
+import com.google.gson.internal.bind.util.ISO8601Utils;
+import org.clapper.util.classutil.ClassFilter;
+import org.clapper.util.classutil.ClassFinder;
+import org.clapper.util.classutil.ClassInfo;
+import org.clapper.util.classutil.SubclassClassFilter;
+import sun.reflect.ReflectionFactory;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings("unchecked")
 public class BeanFactoryImpl implements BeanFactory {
@@ -165,9 +176,48 @@ public class BeanFactoryImpl implements BeanFactory {
     }
 
     private Object getBeanByInterface(Class interfaceClass) {
-        //TODO Scanner package and forEach all class and find this that implements interface
-        String name = interfaceClass.getSimpleName().replaceAll("Interface", "");
-        return getBean(getIdOfNameClass(name));
+        String className = null;
+        try {
+            ClassFinder finder = new ClassFinder();
+            finder.clear();
+            File currentClass = new File(URLDecoder.decode(interfaceClass
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .getPath(), "UTF-8"));
+            finder.add(currentClass);
+            ClassFilter filter = new SubclassClassFilter(Class.forName(interfaceClass.getName()));
+
+            Collection<ClassInfo> foundClasses = new ArrayList<>();
+            finder.findClasses(foundClasses, filter);
+            if (foundClasses.size() > 1) {
+                throw new IllegalArgumentException("A lot of classes that implements" +
+                        " Interface, count classes are " + foundClasses.size());
+            }
+
+            for (ClassInfo classInfo : foundClasses) {
+                Class clazz = Class.forName(classInfo.getClassName());
+                className = clazz.getSimpleName().replaceAll("Impl","");
+                break;
+            }
+
+            if (foundClasses.size() == 0) {
+                //TODO This method is not correct, by work. I don't know why...
+                className = interfaceClass.getSimpleName();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (className == null) {
+
+            throw new IllegalArgumentException("no class that implement" +
+                    " Interface " + interfaceClass.getSimpleName());
+        }
+
+        System.out.println(className);
+
+        return getBean(getIdOfNameClass(className));
     }
 
 
