@@ -74,6 +74,7 @@ public class BookServiceImpl implements BookService {
             user.addBook(book);
             users.put(number, user);
         }
+        book.setSerialNumber(number);
         stateMachineManager.handleEvent(book, BookEvent.ACCEPT);
         return book;
     }

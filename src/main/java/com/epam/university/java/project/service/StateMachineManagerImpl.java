@@ -24,11 +24,6 @@ public class StateMachineManagerImpl implements StateMachineManager {
     private StateMachineDefinition stateMachineDefinition;
     private BookStateMachineHandler bookStateMachineHandler = new BookStateMachineHandler();
 
-    {
-
-    }
-
-
     @Override
     public StateMachineDefinition<?, ?> loadDefinition(Resource resource) {
         try {
@@ -55,10 +50,8 @@ public class StateMachineManagerImpl implements StateMachineManager {
     @Override
     public <S, E> StatefulEntity<S, E> handleEvent(StatefulEntity<S, E> entity, E event) {
         Book book = (Book) entity;
-        System.out.println("Вход в handleEvent : " + book.getState() + "Событие - " + event);
         BookEvent bookEvent = (BookEvent) event;
         bookStateMachineHandler.change(stateMachineDefinition, book, bookEvent);
-        System.out.println("Выход после handleEvent : " + book.getState());
         return entity;
     }
 }
