@@ -80,7 +80,8 @@ public class BookImpl implements Book {
     }
 
     @Override
-    public void setStateMachineDefinition(StateMachineDefinition<BookStatus, BookEvent> stateMachineDefinition) {
+    public void setStateMachineDefinition(StateMachineDefinition<BookStatus, BookEvent>
+                                                      stateMachineDefinition) {
         this.stateMachineDefinition = stateMachineDefinition;
     }
 }

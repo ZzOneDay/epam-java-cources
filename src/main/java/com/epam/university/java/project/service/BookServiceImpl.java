@@ -1,5 +1,7 @@
 package com.epam.university.java.project.service;
 
+import com.epam.university.java.project.core.cdi.impl.io.XmlResource;
+import com.epam.university.java.project.core.state.machine.domain.StateMachineDefinition;
 import com.epam.university.java.project.core.state.machine.manager.StateMachineManager;
 import com.epam.university.java.project.domain.Book;
 import com.epam.university.java.project.domain.BookEvent;
@@ -23,44 +25,43 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDao;
     @XmlElement(name = "stateMachineManager", type = StateMachineManagerImpl.class)
     private StateMachineManager stateMachineManager;
+    private Map<String, User> users = new HashMap<>();
 
-    private Collection<Book> books = new ArrayList<>();
-    private int indexBook;
-    private Map<String,User> users = new HashMap<>();
+    private StateMachineDefinition stateMachineDefinition;
+
 
     @Override
     public Book createBook() {
-        Book book = new BookImpl();
+        if (stateMachineDefinition == null) {
+            final String config = getClass()
+                    .getResource("/project/DefaultBookStateMachineDefinition.xml").getFile();
+            stateMachineDefinition = stateMachineManager.loadDefinition(new XmlResource(config));
+        }
+        Book book = bookDao.createBook();
+        stateMachineManager.initStateMachine(book,stateMachineDefinition);
         stateMachineManager.handleEvent(book, BookEvent.CREATE);
-        indexBook++;
-        book.setId(indexBook);
         return book;
     }
 
     @Override
     public Book getBook(int id) {
-        for (Book book : books) {
-            if (book.getId() == id) {
-                return book;
-            }
-        }
-        return null;
+        Book book = bookDao.getBook(id);
+        return book;
     }
 
     @Override
     public Collection<Book> getBooks() {
-        return books;
+        return bookDao.getBooks();
     }
 
     @Override
     public void remove(Book book) {
-        books.remove(book);
+        bookDao.remove(book);
     }
 
     @Override
     public Book save(Book book) {
-        books.add(book);
-        return book;
+        return bookDao.save(book);
     }
 
     @Override
@@ -71,30 +72,30 @@ public class BookServiceImpl implements BookService {
         } else {
             User user = new User(number);
             user.addBook(book);
-            users.put(number,user);
+            users.put(number, user);
         }
-        stateMachineManager.handleEvent(book,BookEvent.ACCEPT);
+        stateMachineManager.handleEvent(book, BookEvent.ACCEPT);
         return book;
     }
 
     @Override
     public Book issue(Book book, LocalDate returnDate) {
         book.setReturnDate(returnDate);
-        stateMachineManager.handleEvent(book,BookEvent.ISSUE);
+        stateMachineManager.handleEvent(book, BookEvent.ISSUE);
         return book;
     }
 
     @Override
     public Book returnFromIssue(Book book) {
         book.setReturnDate(null);
-        stateMachineManager.handleEvent(book,BookEvent.RETURN);
+        stateMachineManager.handleEvent(book, BookEvent.RETURN);
         return book;
     }
-
 
     private class User {
         private String number;
         private List<Book> hasBooks = new ArrayList<>();
+
         User(String number) {
             this.number = number;
         }
@@ -106,6 +107,5 @@ public class BookServiceImpl implements BookService {
         void returnBook(Book book) {
             hasBooks.remove(book);
         }
-
     }
 }

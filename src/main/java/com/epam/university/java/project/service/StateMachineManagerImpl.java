@@ -16,17 +16,16 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.logging.Handler;
 
+@SuppressWarnings("unchecked")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
 public class StateMachineManagerImpl implements StateMachineManager {
     private StateMachineDefinition stateMachineDefinition;
-    BookStateMachineHandler bookStateMachineHandler = new BookStateMachineHandler();
+    private BookStateMachineHandler bookStateMachineHandler = new BookStateMachineHandler();
 
     {
-        final String config = getClass().getResource("/project/DefaultBookStateMachineDefinition.xml").getFile();
-        loadDefinition(new XmlResource(config));
+
     }
 
 
@@ -37,26 +36,29 @@ public class StateMachineManagerImpl implements StateMachineManager {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             stateMachineDefinition =
                     (StateMachineDefinition) unmarshaller.unmarshal(resource.getFile());
-
+            stateMachineDefinition.setStartEvent(BookEvent.CREATE);
+            stateMachineDefinition.setStartState(BookStatus.DRAFT);
             return stateMachineDefinition;
         } catch (JAXBException e) {
-            throw new IllegalArgumentException("JAXB could not create StateMachineDefinition by XML");
+            throw new IllegalArgumentException("JAXB could "
+                  +  "not create StateMachineDefinition by XML");
         }
     }
 
     @Override
-    public <S, E> StatefulEntity<S, E> initStateMachine(StatefulEntity<S, E> entity, StateMachineDefinition<S, E> definition) {
+    public <S, E> StatefulEntity<S, E> initStateMachine(StatefulEntity<S, E> entity,
+                                                        StateMachineDefinition<S, E> definition) {
         entity.setStateMachineDefinition(definition);
         return entity;
     }
 
     @Override
     public <S, E> StatefulEntity<S, E> handleEvent(StatefulEntity<S, E> entity, E event) {
-        //Заходит книга, и че с ней сделать
         Book book = (Book) entity;
+        System.out.println("Вход в handleEvent : " + book.getState() + "Событие - " + event);
         BookEvent bookEvent = (BookEvent) event;
-        bookStateMachineHandler.change(stateMachineDefinition, book,bookEvent);
-        book.setState(book.getStateMachineDefinition().getStartState());
-        return null;
+        bookStateMachineHandler.change(stateMachineDefinition, book, bookEvent);
+        System.out.println("Выход после handleEvent : " + book.getState());
+        return entity;
     }
 }

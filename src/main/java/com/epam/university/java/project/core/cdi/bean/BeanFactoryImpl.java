@@ -191,8 +191,8 @@ public class BeanFactoryImpl implements BeanFactory {
             Collection<ClassInfo> foundClasses = new ArrayList<>();
             finder.findClasses(foundClasses, filter);
             if (foundClasses.size() > 1) {
-                throw new IllegalArgumentException("A lot of classes that implements" +
-                        " Interface, count classes are " + foundClasses.size());
+                throw new IllegalArgumentException("A lot of classes that implements"
+                       + " Interface, count classes are " + foundClasses.size());
             }
 
             for (ClassInfo classInfo : foundClasses) {
@@ -211,8 +211,8 @@ public class BeanFactoryImpl implements BeanFactory {
         }
         if (className == null) {
 
-            throw new IllegalArgumentException("no class that implement" +
-                    " Interface " + interfaceClass.getSimpleName());
+            throw new IllegalArgumentException("no class that implement"
+                   + " Interface " + interfaceClass.getSimpleName());
         }
 
         System.out.println(className);
