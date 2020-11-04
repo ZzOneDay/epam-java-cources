@@ -57,16 +57,7 @@ public class CodeTreeNode implements Comparable<CodeTreeNode> {
             CodeTreeNode right = codeTreeNodes.remove(codeTreeNodes.size() - 1);
 
             if (left.getWeight() == right.getWeight() && left.getCharacter() != null
-                    && right.getCharacter() != null && left.getWeight() % 2 == 0) {
-                if (left.getCharacter() < right.getCharacter()) {
-                    CodeTreeNode temp = left;
-                    left = right;
-                    right = temp;
-                }
-            }
-
-            if (left.getWeight() == right.getWeight() && left.getCharacter() != null
-                    && right.getCharacter() != null && left.getWeight() % 2 != 0) {
+                    && right.getCharacter() != null) {
                 if (left.getCharacter() > right.getCharacter()) {
                     CodeTreeNode temp = left;
                     left = right;
