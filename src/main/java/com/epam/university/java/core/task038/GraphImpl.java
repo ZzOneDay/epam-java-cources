@@ -15,6 +15,9 @@ public class GraphImpl implements Graph {
     @Override
     public void createVertex(int id, int x, int y) {
         vertices.add(new VertexImpl(id, x, y));
+        if (size < vertices.size()) {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
