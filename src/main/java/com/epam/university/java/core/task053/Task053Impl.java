@@ -27,6 +27,22 @@ public class Task053Impl implements Task053 {
             throw new IllegalArgumentException();
         }
 
+        int firstBraces = 0;
+        int secondBraces = 0;
+        for (Character character : input.toCharArray()) {
+            if (character == '(') {
+                firstBraces++;
+            }
+            if (character == ')') {
+                secondBraces++;
+            }
+        }
+        if (firstBraces != secondBraces) {
+            throw new IllegalArgumentException();
+        }
+
+
+
         input = stringWithOut(input);
 
         return Double.parseDouble(input);
@@ -43,11 +59,9 @@ public class Task053Impl implements Task053 {
                 String result = s.substring(start, finish).replaceAll("[)(]", "");
                 String s1 = simplify(result);
                 s = s.substring(0, start) + s1 + s.substring(finish);
-                System.out.println(s);
             }
         }
         s = simplify(s);
-        System.out.println(s);
         return s;
     }
 
