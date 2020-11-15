@@ -10,12 +10,10 @@ public class Task062Impl implements Task062 {
     @Override
     public OutputStream objectSerialization(Object obj) {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        ObjectOutputStream oos;
-        try {
-            oos = new ObjectOutputStream(buffer);
+        try (ObjectOutputStream oos = new ObjectOutputStream(buffer)) {
             oos.writeObject(obj);
             oos.flush();
-            oos.close();
+            buffer.close();
         } catch (Exception e) {
             throw new IllegalArgumentException("Error objectSerialization");
         }
@@ -34,7 +32,6 @@ public class Task062Impl implements Task062 {
                 object = SingletonObject.getInstance();
             }
             return object;
-
         } catch (Exception e) {
             throw new IllegalArgumentException("Error objectDeserialization");
         }
