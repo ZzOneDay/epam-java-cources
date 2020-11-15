@@ -5,6 +5,7 @@ import com.epam.university.java.core.task015.PointImpl;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class FunctionCalculator {
 
@@ -35,6 +36,10 @@ public class FunctionCalculator {
 
         BigDecimal x = value1.divide(value3, MathContext.DECIMAL128);
         BigDecimal y = value2.divide(value3, MathContext.DECIMAL128);
+        x = x.setScale(15, RoundingMode.HALF_UP);
+        y = y.setScale(15,RoundingMode.HALF_UP);
+
+
         return new PointImpl(x.doubleValue(), y.doubleValue());
 
     }
