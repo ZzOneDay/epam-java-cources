@@ -29,7 +29,7 @@ public class Task062Impl implements Task062 {
             ObjectInputStream objectInputStream = new ObjectInputStream(in);
             Object object = objectInputStream.readObject();
             if (object instanceof SingletonObject) {
-                object = SingletonObject.getInstance();
+                object = SingletonObjectImpl.getInstance();
             }
             return object;
         } catch (Exception e) {

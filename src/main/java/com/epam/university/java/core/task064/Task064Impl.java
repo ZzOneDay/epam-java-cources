@@ -86,8 +86,7 @@ public class Task064Impl implements Task064 {
         }
 
 
-        boolean haveOrder = isFiveCardsHaveOrder(cards);
-        if (haveOrder) {
+        if (isFiveCardsHaveOrder(cards)) {
             //есть порядок
             LinkedList<String> orderCards = getFiveOrdersCard(cards);
             if (isFiveCardsHaveOneType(orderCards)) {
@@ -105,8 +104,8 @@ public class Task064Impl implements Task064 {
             }
         }
 
-        boolean isFourCardOneLevel = isFourCardHaveOneLevel(cards);
-        if (isFourCardOneLevel) {
+
+        if (isFourCardHaveOneLevel(cards)) {
             //Каре
             return 8;
         }
@@ -170,6 +169,10 @@ public class Task064Impl implements Task064 {
 
         if (count > 4) {
             return true;
+        }
+
+        if (cardsHaveAce(cards)) {
+            return getResultOfWithOppositeAce(cards);
         }
         return false;
     }
@@ -365,7 +368,7 @@ public class Task064Impl implements Task064 {
         LinkedList<String> fiveCard = new LinkedList<>();
         int levelOld = getLevelCard(cards.get(0));
         for (String card : cards) {
-            if (card == cards.get(0)) {
+            if (card.equals(cards.get(0))) {
                 fiveCard.add(card);
                 continue;
             }
@@ -384,7 +387,7 @@ public class Task064Impl implements Task064 {
                 return fiveCard;
             }
         }
-        throw new IllegalArgumentException("Order carts was not found");
+        return getNewCardWithOppositeAce(cards);
     }
 
     private boolean duplicateTest(String[] table, String[] first, String[] second) {
@@ -400,5 +403,45 @@ public class Task064Impl implements Task064 {
             return false;
         }
         return true;
+    }
+
+    private boolean cardsHaveAce(LinkedList<String> cards) {
+        for (String card : cards) {
+            int level = getLevelCard(card);
+            if (level == 14) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean getResultOfWithOppositeAce(LinkedList<String> cards) {
+        LinkedList<String> newCards = new LinkedList<>(cards);
+        for (String card : newCards) {
+            int rank = getLevelCard(card);
+            if (rank == 14) {
+                char type = card.charAt(1);
+                newCards.remove(card);
+                newCards.add("1" + type);
+                break;
+            }
+        }
+        sort(newCards);
+        return isFiveCardsHaveOrder(newCards);
+    }
+
+    private LinkedList<String> getNewCardWithOppositeAce(LinkedList<String> cards) {
+        LinkedList<String> newCards = new LinkedList<>(cards);
+        for (String card : newCards) {
+            int rank = getLevelCard(card);
+            if (rank == 14) {
+                char type = card.charAt(1);
+                newCards.remove(card);
+                newCards.add("1" + type);
+                break;
+            }
+        }
+        sort(newCards);
+        return newCards;
     }
 }

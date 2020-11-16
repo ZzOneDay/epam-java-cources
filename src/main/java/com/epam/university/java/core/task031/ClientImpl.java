@@ -10,6 +10,10 @@ public class ClientImpl implements Client {
 
     @Override
     public void sendMessage(String message) {
+        if (message == null) {
+            throw new IllegalArgumentException();
+        }
+
         if (!isWork) {
             throw new IllegalArgumentException();
         }
