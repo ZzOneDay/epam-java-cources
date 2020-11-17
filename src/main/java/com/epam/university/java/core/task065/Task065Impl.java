@@ -61,7 +61,6 @@ public class Task065Impl implements Task065 {
     private Document getDocumentFromFile(String filepath) {
         try {
             File file = new File(getClass().getResource(filepath).toURI());
-            System.out.println(file.getPath());
             return Jsoup.parse(file, "UTF-8", "http://example.com/");
         } catch (Exception e) {
             throw new IllegalArgumentException();
