@@ -30,7 +30,7 @@ public class Task061Impl implements Task061 {
 
     @Override
     public int convertToArabic(String number) {
-        if (number.contains(" ")) {
+        if (number == null || number.contains(" ")) {
             throw new IllegalArgumentException();
         }
         String symbols = number.toUpperCase();

@@ -3,6 +3,9 @@ package com.epam.university.java.core.task066;
 public class Task066Impl implements Task066 {
     @Override
     public long repeatString(String infiniteString, long limiter) {
+        if (infiniteString == null || limiter < 0) {
+            throw new IllegalArgumentException();
+        }
         if (limiter % infiniteString.length() == 0) {
             return hardCount(infiniteString, limiter);
         } else {
@@ -30,6 +33,9 @@ public class Task066Impl implements Task066 {
     }
 
     private long simpleCount(String infiniteString, long limiter) {
+        if (infiniteString == null || limiter < 0) {
+            throw new IllegalArgumentException();
+        }
         char[] chars = infiniteString.toCharArray();
         long value = 0;
 
